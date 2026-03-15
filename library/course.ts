@@ -9,7 +9,10 @@ export async function getAllCourses({ page, limit, search, department }: CourseO
         if (search) params.append("search", search);
         if (department) params.append("department", department);
 
-        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses?" + params);
+        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses?" + params, {
+            method: 'GET',
+            cache: 'no-store'
+        });
 
         if (!response.ok) {
             throw new Error("Failed to fetch courses data");
@@ -25,7 +28,10 @@ export async function getAllCourses({ page, limit, search, department }: CourseO
 
 export async function getSingleCourse(id: string): Promise<Course> {
     try {
-        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses/" + id);
+        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses/" + id, {
+            method: 'GET',
+            cache: 'no-store'
+        });
 
         if (!response.ok) {
             throw new Error("Failed to fetch course data");

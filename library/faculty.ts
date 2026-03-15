@@ -9,7 +9,10 @@ export async function getAllFaculties({ page, limit, search, department }: Facul
         if (search) params.append("search", search);
         if (department) params.append("department", department);
 
-        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/faculties?" + params);
+        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/faculties?" + params, {
+            method: 'GET',
+            cache: 'no-store'
+        });
 
         if (!response.ok) {
             throw new Error("Failed to fetch faculties data");
@@ -25,7 +28,10 @@ export async function getAllFaculties({ page, limit, search, department }: Facul
 
 export async function getSingleFaculty(id: string): Promise<Faculty> {
     try {
-        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/faculties/" + id);
+        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/faculties/" + id, {
+            method: 'GET',
+            cache: 'no-store'
+        });
 
         if (!response.ok) {
             throw new Error("Failed to fetch faculty data");

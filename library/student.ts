@@ -11,7 +11,7 @@ export async function getAllStudents({ page, limit, search, department }: Studen
 
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students?" + params, {
             method: 'GET',
-            next: { revalidate: 0 }
+            cache: 'no-store'
         });
 
         if (!response.ok) {
@@ -30,7 +30,7 @@ export async function getSingleStudent(id: string): Promise<Student> {
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students/" + id, {
             method: 'GET',
-            next: { revalidate: 0 }
+            cache: 'no-store'
         });
 
         if (!response.ok) {
@@ -50,6 +50,7 @@ export async function postCreateStudent(data: Omit<Student, "id">): Promise<Stud
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students",
             {
                 method: "POST",
+                cache: 'no-store',
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -76,6 +77,7 @@ export async function putUpdateStudent(data: Student): Promise<Student> {
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students/" + data.id,
             {
                 method: 'PUT',
+                cache: 'no-store',
                 headers: {
                     "Content-Type": "application/json",
                 },
