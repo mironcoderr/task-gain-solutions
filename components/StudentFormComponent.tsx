@@ -6,7 +6,7 @@ import { getSingleStudent } from "@/library/student"
 import { Student } from "@/types/student";
 import { Course } from "@/types/course";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export default async function StudentFormComponent({ title, editId }: { title: string, editId?: string }) {
 
@@ -58,7 +58,8 @@ export default async function StudentFormComponent({ title, editId }: { title: s
         if(editId) await putUpdateStudent(updatedData)
         else await postCreateStudent(createdData)
 
-        revalidatePath('/students')
+        revalidateTag('all-student', 'max')
+        revalidateTag('single-student', 'max')
         redirect('/students')
     }
 
