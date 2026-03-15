@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "studentId": 1,
+        "courseId": 1,
+        "grade": "A",
+        "score": 92,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 2,
+        "studentId": 2,
+        "courseId": 1,
+        "grade": "A+",
+        "score": 96,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 3,
+        "studentId": 3,
+        "courseId": 2,
+        "grade": "B+",
+        "score": 85,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 4,
+        "studentId": 4,
+        "courseId": 4,
+        "grade": "B",
+        "score": 80,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 5,
+        "studentId": 5,
+        "courseId": 1,
+        "grade": "A",
+        "score": 90,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 6,
+        "studentId": 6,
+        "courseId": 2,
+        "grade": "B+",
+        "score": 84,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 7,
+        "studentId": 7,
+        "courseId": 5,
+        "grade": "B",
+        "score": 79,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 8,
+        "studentId": 8,
+        "courseId": 3,
+        "grade": "A",
+        "score": 91,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 9,
+        "studentId": 9,
+        "courseId": 5,
+        "grade": "B+",
+        "score": 86,
+        "semester": "Spring 2026"
+    },
+    {
+        "id": 10,
+        "studentId": 10,
+        "courseId": 4,
+        "grade": "B",
+        "score": 82,
+        "semester": "Spring 2026"
+    }
+]

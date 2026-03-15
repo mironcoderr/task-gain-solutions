@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "title": "Web Development",
+        "code": "CSE101",
+        "department": "Computer Science",
+        "facultyId": 1,
+        "enrollmentCount": 3
+    },
+    {
+        "id": 2,
+        "title": "Data Structures",
+        "code": "CSE102",
+        "department": "Computer Science",
+        "facultyId": 2,
+        "enrollmentCount": 4
+    },
+    {
+        "id": 3,
+        "title": "Database Systems",
+        "code": "CSE201",
+        "department": "Software Engineering",
+        "facultyId": 3,
+        "enrollmentCount": 3
+    },
+    {
+        "id": 4,
+        "title": "Computer Networks",
+        "code": "CSE202",
+        "department": "Information Technology",
+        "facultyId": 4,
+        "enrollmentCount": 3
+    },
+    {
+        "id": 5,
+        "title": "Operating Systems",
+        "code": "CSE203",
+        "department": "Computer Science",
+        "facultyId": 2,
+        "enrollmentCount": 2
+    },
+    {
+        "id": 6,
+        "title": "Machine Learning",
+        "code": "CSE301",
+        "department": "Computer Science",
+        "facultyId": 5,
+        "enrollmentCount": 0
+    },
+    {
+        "id": 7,
+        "title": "Artificial Intelligence",
+        "code": "CSE302",
+        "department": "Computer Science",
+        "facultyId": 5,
+        "enrollmentCount": 0
+    },
+    {
+        "id": 8,
+        "title": "Cloud Computing",
+        "code": "CSE303",
+        "department": "Software Engineering",
+        "facultyId": 3,
+        "enrollmentCount": 0
+    },
+    {
+        "id": 9,
+        "title": "Cyber Security",
+        "code": "CSE304",
+        "department": "Information Technology",
+        "facultyId": 4,
+        "enrollmentCount": 0
+    }
+]

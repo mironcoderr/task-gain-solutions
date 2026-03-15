@@ -1,0 +1,64 @@
+[
+    {
+        "id": 1,
+        "name": "Dr. Kamrul Hasan",
+        "email": "kamrul@gain.com",
+        "department": "Computer Science",
+        "designation": "Professor",
+        "courseIds": [
+            1
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Dr. Mahmudul Islam",
+        "email": "mahmud@gain.com",
+        "department": "Computer Science",
+        "designation": "Associate Professor",
+        "courseIds": [
+            2,
+            5
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Dr. Nasir Uddin",
+        "email": "nasir@gain.com",
+        "department": "Software Engineering",
+        "designation": "Assistant Professor",
+        "courseIds": [
+            3,
+            8
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Dr. Tanvir Ahmed",
+        "email": "tanvir@gain.com",
+        "department": "Information Technology",
+        "designation": "Professor",
+        "courseIds": [
+            4,
+            9
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Dr. Farhan Rahman",
+        "email": "farhan@gain.com",
+        "department": "Computer Science",
+        "designation": "Professor",
+        "courseIds": [
+            6,
+            7
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Dr. Saif Ahmed",
+        "email": "saif@gain.com",
+        "department": "Software Engineering",
+        "designation": "Lecturer",
+        "courseIds": []
+    }
+]
