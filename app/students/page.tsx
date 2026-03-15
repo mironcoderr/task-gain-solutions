@@ -1,8 +1,10 @@
+import SearchComponent from "@/components/SearchComponent";
 import StudentFormComponent from "@/components/StudentFormComponent";
 import SelectOptionComponent from "@/components/SelectOptionComponent";
-import { getAllStudents } from "@/library/student";
-import SearchComponent from "@/components/SearchComponent";
+import { getAllStudents, getSingleStudent } from "@/library/student";
+import { getAllCourses, getSingleCourse } from "@/library/course";
 import { Student, StudentOptions } from "@/types/student";
+import { Course } from "@/types/course";
 import Link from "next/link";
 
 type StudentExtendOptions = StudentOptions & {
@@ -13,6 +15,18 @@ type StudentExtendOptions = StudentOptions & {
 export default async function StudentsPage({ searchParams }: { searchParams: Promise<StudentExtendOptions> }) {
 
     const searchOption = await searchParams;
+
+    const courses = await getAllCourses();
+
+    let student: Student | null = null;
+    let editCourses: Course[] | null = null;
+
+    if (searchOption.edit) {
+        student = await getSingleStudent(searchOption.edit);
+        editCourses = await Promise.all(
+            student.courseIds.map((id) => getSingleCourse(id.toString()))
+        )
+    }
 
     const students = await getAllStudents({
         page: searchOption.page,
@@ -123,7 +137,9 @@ export default async function StudentsPage({ searchParams }: { searchParams: Pro
 
         {(searchOption.add || searchOption.edit) && (
             <StudentFormComponent
-                editId={searchOption.edit}
+                student={student}
+                courses={courses.data}
+                editCourses={editCourses}
                 title={searchOption.add ? "add new student" : "edit this student"}
             />
         )}

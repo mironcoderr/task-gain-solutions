@@ -1,39 +1,39 @@
+"use client"
+
 import Link from "next/link"
 import {postCreateStudent, putUpdateStudent} from "@/library/student";
-import { getAllCourses, getSingleCourse } from "@/library/course";
 import MultiSelectComponent from "./MultiSelectComponent";
-import { getSingleStudent } from "@/library/student"
+import { useRouter } from "next/navigation";
 import { Student } from "@/types/student";
 import { Course } from "@/types/course";
-import { redirect } from "next/navigation";
-import { revalidateTag } from "next/cache";
+import toast from "react-hot-toast";
 
-export default async function StudentFormComponent({ title, editId }: { title: string, editId?: string }) {
+interface Props {
+    title: string;
+    courses: Course[];
+    student: Student | null;
+    editCourses: Course[] | null;
+}
 
-    let student: Student | null = null;
-    let editCourses: Course[] | null = null;
-    
-    const courses = await getAllCourses();
-    
-    if (editId) {
-        student = await getSingleStudent(editId);
-        editCourses = await Promise.all(
-            student.courseIds.map((id) => getSingleCourse(id.toString()))
-        )
-    }
+export default function StudentFormComponent({ title, student, courses, editCourses }: Props) {
+
+    const router = useRouter();
 
     const defaultValues = editCourses?.map((course: Course) => ({
         value: course.id,
         label: course.title,
     }))
 
-    const selectOptions = courses.data.map((course: Course) => ({
+    const selectOptions = courses.map((course: Course) => ({
         value: course.id,
         label: course.title,
     }))
 
-    const handleStudentForm = async (formData: FormData) => {
-        "use server"
+    const handleStudentForm = async (event: React.SubmitEvent<HTMLFormElement>) => {
+
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
 
         const rawCourseIds = formData.getAll("courseIds"); 
         const convertedCourseIds: number[] = rawCourseIds
@@ -52,13 +52,19 @@ export default async function StudentFormComponent({ title, editId }: { title: s
 
         const updatedData = {
             ...createdData,
-            id: Number(editId)
+            id: Number(student?.id)
         }
 
-        if(editId) await putUpdateStudent(updatedData)
-        else await postCreateStudent(createdData)
+        if(student) {
+            await putUpdateStudent(updatedData)
+            toast.success('Student Updated Successfully!')
+        }
+        else {
+            await postCreateStudent(createdData)
+            toast.success('Student Created Successfully!')
+        }
 
-        redirect('/students')
+        router.push('/students');
     }
 
     return (
@@ -70,7 +76,7 @@ export default async function StudentFormComponent({ title, editId }: { title: s
                     <Link href="/students" className="mc-fill-close-circle text-xl text-danger"></Link>
                 </div>
 
-                <form action={handleStudentForm} className="p-4 grid grid-cols-12 gap-4">
+                <form onSubmit={handleStudentForm} className="p-4 grid grid-cols-12 gap-4">
                     <div className="col-span-6">
                         <label className="text-sm font-medium">Name</label>
                         <input
@@ -129,8 +135,8 @@ export default async function StudentFormComponent({ title, editId }: { title: s
                         <label className="text-sm font-medium">Select Courses</label>
                         <MultiSelectComponent 
                             name="courseIds"
-                            options={selectOptions}
-                            defaultValue={defaultValues}
+                            options={selectOptions!}
+                            defaultValue={defaultValues!}
                         />
                     </div>
                     <div className="col-span-12">
