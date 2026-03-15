@@ -1,6 +1,7 @@
 import students from "@/json/students.json";
 import { Student } from "@/types/student";
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
 
@@ -14,10 +15,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         )
     }
 
-    return NextResponse.json(student, {
-        status: 200,
-        headers: { "Cache-Control": "no-store" }
-    })
+    return NextResponse.json(student, { status: 200 })
 }
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -35,10 +33,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
     students[index] = { ...students[index], ...body };
 
-    return NextResponse.json(students[index], {
-        status: 200,
-        headers: { "Cache-Control": "no-store" }
-    })
+    revalidateTag('students', 'max');
+    revalidateTag(`students-${students[index].id}`, 'max');
+
+    return NextResponse.json(students[index], { status: 200 });
 }
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -55,8 +53,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     const removed = students.splice(index, 1);
 
-    return NextResponse.json(removed[0], {
-        status: 200,
-        headers: { "Cache-Control": "no-store" }
-    })
+    revalidateTag('students', 'max');
+    revalidateTag(`students-${removed[0].id}`, 'max');
+
+    return NextResponse.json(removed[0], { status: 200 });
 }

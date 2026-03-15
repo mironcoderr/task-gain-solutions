@@ -1,50 +1,45 @@
-import fs from "fs";
-import path from "path";
+import students from "@/json/students.json";
 import { Student } from "@/types/student";
-import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
-
-const filePath = path.join(process.cwd(), "json/students.json");
+import { revalidateTag } from "next/cache";
 
 export async function GET(request: Request) {
-
     const { searchParams } = new URL(request.url);
-
-    const fileData = fs.readFileSync(filePath, "utf-8");
-    let students: Student[] = JSON.parse(fileData);
 
     const page = Number(searchParams.get("page") || 1);
     const limit = Number(searchParams.get("limit") || students.length);
     const search = searchParams.get("search")?.toLowerCase() || "";
     const department = searchParams.get("department")?.toLowerCase() || "";
 
+    let filtered = [...students];
+
+    // Search by name
     if (search) {
-        students = students.filter(
+        filtered = filtered.filter(
             (s: Student) => s.name.toLowerCase().includes(search)
         );
     }
 
+    // Filter by department
     if (department) {
-        students = students.filter(
+        filtered = filtered.filter(
             (s: Student) => s.department.toLowerCase() === department
         );
     }
 
-    const total = students.length;
+    const total = filtered.length;
     const start = (page - 1) * limit;
-    const data = students.slice(start, start + limit);
+    const data = filtered.slice(start, start + limit);
 
     return NextResponse.json(
         { data, total, page, limit },
         { status: 200 }
-    );
+    )
 }
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const fileData = fs.readFileSync(filePath, "utf-8");
-        const students: Student[] = JSON.parse(fileData);
 
         const newStudent: Student = {
             id: students.length + 1,
@@ -52,9 +47,8 @@ export async function POST(request: Request) {
         };
 
         students.push(newStudent);
-        fs.writeFileSync(filePath, JSON.stringify(students, null, 2));
 
-        revalidateTag("students", 'max');
+        revalidateTag('students', 'max');
         revalidateTag(`students-${newStudent.id}`, 'max');
 
         return NextResponse.json(newStudent, { status: 201 });
