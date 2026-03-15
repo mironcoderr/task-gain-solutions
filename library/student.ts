@@ -11,6 +11,7 @@ export async function getAllStudents({ page, limit, search, department }: Studen
 
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students?" + params, {
             method: 'GET',
+            cache: 'no-store',
             next: { tags: ["all-student"] }
         });
 
@@ -30,6 +31,7 @@ export async function getSingleStudent(id: string): Promise<Student> {
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students/" + id, {
             method: 'GET',
+            cache: 'no-store',
             next: { tags: ["single-student"] }
         });
 
@@ -50,6 +52,7 @@ export async function postCreateStudent(data: Omit<Student, "id">): Promise<Stud
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students",
             {
                 method: "POST",
+                cache: 'no-store',
                 body: JSON.stringify(data),
             }
         );
@@ -73,6 +76,7 @@ export async function putUpdateStudent(data: Student): Promise<Student> {
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students/" + data.id,
             {
                 method: 'PUT',
+                cache: 'no-store',
                 body: JSON.stringify(data),
             }
         );
