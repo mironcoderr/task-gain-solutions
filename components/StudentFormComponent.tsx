@@ -58,8 +58,6 @@ export default async function StudentFormComponent({ title, editId }: { title: s
         if(editId) await putUpdateStudent(updatedData)
         else await postCreateStudent(createdData)
 
-        revalidateTag('all-student', 'max')
-        revalidateTag('single-student', 'max')
         redirect('/students')
     }
 

@@ -12,7 +12,7 @@ export async function getAllStudents({ page, limit, search, department }: Studen
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students?" + params, {
             method: 'GET',
             cache: 'no-store',
-            next: { tags: ["all-student"] }
+            next: { tags: ["students"] }
         });
 
         if (!response.ok) {
@@ -32,7 +32,7 @@ export async function getSingleStudent(id: string): Promise<Student> {
         const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students/" + id, {
             method: 'GET',
             cache: 'no-store',
-            next: { tags: ["single-student"] }
+            next: { tags: [`students-${id}`] }
         });
 
         if (!response.ok) {
