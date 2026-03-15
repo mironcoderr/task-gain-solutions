@@ -1,6 +1,7 @@
 import students from "@/json/students.json";
 import courses from "@/json/courses.json";
 import faculties from "@/json/faculties.json";
+import { NextResponse } from "next/server";
 
 export async function GET() {
 
@@ -19,17 +20,16 @@ export async function GET() {
         .sort((a, b) => b.enrollmentCount - a.enrollmentCount)
         .slice(0, 5)
 
-    return new Response(
-        JSON.stringify({
-            totalStudents,
-            totalCourses,
-            totalFaculty,
-            topStudents,
-            popularCourses
-        }),
-        {
-            status: 200,
-            headers: { "Content-Type": "application/json" }
-        }
-    );
+    const dashboardData = {
+        totalStudents,
+        totalCourses,
+        totalFaculty,
+        topStudents,
+        popularCourses
+    }
+
+    return NextResponse.json(dashboardData, {
+        status: 200,
+        headers: { "Cache-Control": "no-store" }
+    })
 }
