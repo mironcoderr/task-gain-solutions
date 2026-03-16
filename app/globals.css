@@ -11,27 +11,6 @@
     --color-focus: #006CC0;
     --color-mate: #F7F7FC;
     --color-placeholder: #91A0BB;
-
-    --color-apple: #000000;
-    --color-google: #EA4335;
-    --color-facebook: #1877F2;
-    --color-instagram: #F77737;
-    --color-twitterX: #000000;
-    --color-linkedin: #0077B5;
-    --color-youtube: #FF0000;
-
-    --shadow-xs: 0px 6px 32px 0px rgba(0, 0, 0, 0.15);
-    --shadow-card: 0px 6px 16px 0px rgba(55, 106, 139, 0.04);
-    --shadow-paper: 0px 24px 60px 0px rgba(8, 80, 135, 0.12);
-    --shadow-page: 16px 0px 32px 0px rgba(0, 0, 0, 0.2);
-
-    --line-height-11: 2.75rem;
-    --line-height-12: 3rem;
-    --line-height-14: 3.5rem;
-
-    --z-60: 60;
-    --z-70: 70;
-    --z-80: 80;
 }
 
 @layer base {
@@ -73,60 +52,7 @@
     }
 }
 
-@layer utilities {
-    .container { @apply max-w-7xl mx-auto px-3 sm:px-4; }
-
-    .thin-scrolling { @apply transition-all duration-500 }
-    .thin-scrolling:hover::-webkit-scrollbar-thumb { @apply bg-primary }
-    .thin-scrolling::-webkit-scrollbar { @apply w-0.75 rounded-2xl bg-transparent }
-
-    .text-outline {
-        -webkit-text-stroke: 1px rgb(var(--color-primary) / 20%);
-        color: transparent;
-    }
-
-    .paper-group { @apply relative; }
-    .paper-content { @apply z-10 scale-y-0 origin-top transition-all duration-300 ease-linear; }
-    .paper-group.paper-active .paper-content { @apply scale-y-100; }
-
-    .modal-active { @apply opacity-100 visible; }
-    .modal-active > div { @apply my-5; }
-
-    .canvas-active { @apply opacity-100 visible; }
-    .canvas-active > div { @apply translate-x-0; }
-}
-
 @layer components {
-    .field-title { @apply capitalize text-xs block mb-1 }
-    .field-title.required { @apply after:content-['*'] after:leading-none after:text-sm after:ml-1 after:text-danger }
-    .field-error { @apply !border-danger !bg-white }
-    .field-required { @apply after:content-['*'] after:leading-none after:text-sm rtl:after:mr-1 ltr:after:ml-1 after:text-danger }
-    .field-control { @apply block w-full h-12 px-4 text-sm rounded-lg border transition-all duration-500 bg-white border-gray-200 hover:border-primary/30 focus-within:border-primary/30 }
-
-    .field-checkbox { --checkbox-size: 18px; }
-    .field-checkbox { @apply cursor-pointer appearance-none relative inline-flex isolate }
-    .field-checkbox::before { @apply content-[''] w-[var(--checkbox-size)] h-[var(--checkbox-size)] rounded-md inline-block border border-gray-400 transition-all duration-300 }
-    .field-checkbox::after { @apply content-['✓'] absolute w-[var(--checkbox-size)] h-[var(--checkbox-size)] leading-[var(--checkbox-size)] text-center text-xs inset-0 rounded-md bg-transparent opacity-0 transition-all duration-300 }
-    .field-checkbox:checked { @apply before:border-primary after:bg-primary after:text-white after:opacity-100 }
-
-    .field-radio { --size: 20px; }
-    .field-radio { @apply cursor-pointer appearance-none relative inline-flex shrink-0 }
-    .field-radio::before { @apply content-[''] w-[var(--size)] h-[var(--size)] shrink-0 rounded-full inline-block border border-gray-400 transition-all duration-300 }
-    .field-radio::after { @apply content-[''] w-1/2 h-1/2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-transparent opacity-0 transition-all duration-300 }
-    .field-radio:checked { @apply before:border-primary after:bg-primary after:opacity-100 }
-
-    .field-range { @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer transition-all }
-    .field-range::-webkit-slider-thumb { @apply appearance-none w-5 h-5 bg-primary rounded-full shadow-md transition-all hover:scale-110 }
-    .field-range::-moz-range-thumb { @apply appearance-none w-5 h-5 bg-primary rounded-full shadow-md transition-all hover:scale-110 }
-
-    .field-label { @apply text-xs -mb-0.5 capitalize cursor-pointer whitespace-nowrap }
-    .field-button { @apply font-medium text-center w-full px-6 h-12 leading-12 rounded-full bg-primary text-white capitalize }
-    .field-control[type=file] { @apply relative font-medium pl-0 text-paragraph transition-all duration-500 before:transition-all before:duration-500 before:content-[''] before:absolute before:top-0 before:left-[115px] before:z-10 before:w-[1px] before:h-full before:bg-gray-200 focus-within:before:bg-primary/30 }
-    .field-control[type=file]::-webkit-file-upload-button,
-    .field-control[type=file]::file-selector-button { @apply h-12 pl-4 pb-1 pr-10 rounded-l-lg font-medium cursor-pointer transition-all duration-500 text-paragraph bg-white border-none }
-    input[type=file]::-webkit-file-upload-button,
-    input[type=file]::file-selector-button { @apply cursor-pointer }
-
     .apexcharts-canvas:focus-visible { @apply outline-none; }
     .apexcharts-tooltip-marker { @apply -translate-y-2.5 }
 }
