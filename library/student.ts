@@ -95,5 +95,28 @@ export async function putUpdateStudent(data: Student): Promise<Student> {
     }
 }
 
+export async function deleteStudent(id: string): Promise<Student> {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/students/" + id,
+            {
+                method: 'DELETE',
+                cache: 'no-store',
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to delete student: ${errorText}`);
+        }
+
+        const deleteStudent: Student = await response.json();
+        return deleteStudent;
+    }
+    catch (error) {
+        console.error("Error deleting student:", error);
+        throw error;
+    }
+}
+
 
 

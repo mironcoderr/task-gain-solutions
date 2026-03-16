@@ -4,12 +4,14 @@ import SelectOptionComponent from "@/components/SelectOptionComponent";
 import { getAllStudents, getSingleStudent } from "@/library/student";
 import { getAllCourses, getSingleCourse } from "@/library/course";
 import { Student, StudentOptions } from "@/types/student";
+import DeleteComponent from "@/components/DeleteComponent";
 import { Course } from "@/types/course";
 import Link from "next/link";
 
 type StudentExtendOptions = StudentOptions & {
     add?: string;
     edit?: string;
+    delete?: string;
 }
 
 export default async function StudentsPage({ searchParams }: { searchParams: Promise<StudentExtendOptions> }) {
@@ -100,8 +102,9 @@ export default async function StudentsPage({ searchParams }: { searchParams: Pro
                             <td className="px-4 py-4">{student.year}</td>
                             <td className="px-4 py-4">{student.gpa}</td>
                             <td className="px-4 py-4 flex items-center justify-center gap-2">
-                                <Link href={`/students/${student.id}`} className="mc-fill-eye text-lg -mt-0.5 text-primary hover:text-primary/80"></Link>
-                                <Link href={`/students?edit=${student.id}`} className="mc-fill-edit text-xl text-success hover:text-success/80"></Link>
+                                <Link href={`/students/${student.id}`} className="mc-fill-eye text-base -mt-0.5 text-primary hover:text-primary/80"></Link>
+                                <Link href={`/students?edit=${student.id}`} className="mc-fill-edit text-lg text-success hover:text-success/80"></Link>
+                                <Link href={`/students?delete=${student.id}`} className="mc-fill-delete text-lg text-danger hover:text-danger/80"></Link>
                             </td>
                         </tr>
                     ))}
@@ -141,6 +144,13 @@ export default async function StudentsPage({ searchParams }: { searchParams: Pro
                 courses={courses.data}
                 editCourses={editCourses}
                 title={searchOption.add ? "add new student" : "edit this student"}
+            />
+        )}
+
+        {(searchOption.delete) && ( 
+            <DeleteComponent 
+                identify='student'
+                deleteId={searchOption.delete}
             />
         )}
 

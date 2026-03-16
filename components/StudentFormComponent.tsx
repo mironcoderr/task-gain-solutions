@@ -1,12 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import {postCreateStudent, putUpdateStudent} from "@/library/student";
+import toast from "react-hot-toast";
+import studentSchema from "@/schema/student";
 import MultiSelectComponent from "./MultiSelectComponent";
+import {postCreateStudent, putUpdateStudent} from "@/library/student";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Student } from "@/types/student";
 import { Course } from "@/types/course";
-import toast from "react-hot-toast";
 
 interface Props {
     title: string;
@@ -16,6 +18,9 @@ interface Props {
 }
 
 export default function StudentFormComponent({ title, student, courses, editCourses }: Props) {
+
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const router = useRouter();
 
@@ -33,6 +38,8 @@ export default function StudentFormComponent({ title, student, courses, editCour
 
         event.preventDefault();
 
+        setLoading(true);
+
         const formData = new FormData(event.currentTarget);
 
         const rawCourseIds = formData.getAll("courseIds"); 
@@ -40,7 +47,7 @@ export default function StudentFormComponent({ title, student, courses, editCour
             .filter(id => id !== "") 
             .map(id => Number(id));
 
-        const createdData = {
+        const formValues = {
             name: String(formData.get("name") || ""),
             email: String(formData.get("email") || ""),
             phone: String(formData.get("phone") || ""),
@@ -50,21 +57,40 @@ export default function StudentFormComponent({ title, student, courses, editCour
             courseIds: convertedCourseIds
         };
 
-        const updatedData = {
-            ...createdData,
-            id: Number(student?.id)
+        const validation = studentSchema.safeParse(formValues);
+
+        if (!validation.success) {
+            const fieldErrors: Record<string, string> = {}
+
+            validation.error.issues.forEach((err) => {
+                const field = err.path[0] as string
+                fieldErrors[field] = err.message
+            })
+
+            setErrors(fieldErrors);
+            setLoading(false);
+            return
         }
 
-        if(student) {
-            await putUpdateStudent(updatedData)
-            toast.success('Student Updated Successfully!')
-        }
-        else {
-            await postCreateStudent(createdData)
-            toast.success('Student Created Successfully!')
-        }
+        try {
+            if (student) {
+                await putUpdateStudent({ ...validation.data, id: Number(student.id) })
+                toast.success("Student Updated Successfully!")
+            }
+            else {
+                await postCreateStudent(validation.data)
+                toast.success("Student Created Successfully!")
+            }
 
-        router.push('/students');
+            router.push("/students");
+
+        } 
+        catch {
+            toast.error("Something went wrong");
+        } 
+        finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -85,6 +111,7 @@ export default function StudentFormComponent({ title, student, courses, editCour
                             defaultValue={student?.name || ""}
                             className="w-full px-3 h-10 rounded-lg border border-gray-300"
                         />
+                        {errors.name && <small className="text-red-500">{errors.name}</small>}
                     </div>
                     <div className="col-span-6">
                         <label className="text-sm font-medium">Email</label>
@@ -94,15 +121,17 @@ export default function StudentFormComponent({ title, student, courses, editCour
                             defaultValue={student?.email || ""}
                             className="w-full px-3 h-10 rounded-lg border border-gray-300"
                         />
+                        {errors.email && <small className="text-red-500">{errors.email}</small>}
                     </div>
                     <div className="col-span-6">
                         <label className="text-sm font-medium">Phone</label>
                         <input
-                            type="text"
+                            type="tel"
                             name="phone"
                             defaultValue={student?.phone || ""}
                             className="w-full px-3 h-10 rounded-lg border border-gray-300"
                         />
+                        {errors.phone && <small className="text-red-500">{errors.phone}</small>}
                     </div>
                     <div className="col-span-6">
                         <label className="text-sm font-medium">Department</label>
@@ -112,24 +141,32 @@ export default function StudentFormComponent({ title, student, courses, editCour
                             defaultValue={student?.department || ""}
                             className="w-full px-3 h-10 rounded-lg border border-gray-300"
                         />
+                        {errors.department && <small className="text-red-500">{errors.department}</small>}
                     </div>
                     <div className="col-span-6">
                         <label className="text-sm font-medium">Year</label>
                         <input
                             type="number"
                             name="year"
+                            min="2000"
+                            max="2100"
                             defaultValue={student?.year || ""}
                             className="w-full px-3 h-10 rounded-lg border border-gray-300"
                         />
+                        {errors.year && <small className="text-red-500">{errors.year}</small>}
                     </div>
                     <div className="col-span-6">
                         <label className="text-sm font-medium">GPA</label>
                         <input
                             type="number"
                             name="gpa"
+                            step="0.01"
+                            min="1"
+                            max="5"
                             defaultValue={student?.gpa || ""}
                             className="w-full px-3 h-10 rounded-lg border border-gray-300"
                         />
+                        {errors.gpa && <small className="text-red-500">{errors.gpa}</small>}
                     </div>
                     <div className="col-span-12">
                         <label className="text-sm font-medium">Select Courses</label>
@@ -138,13 +175,19 @@ export default function StudentFormComponent({ title, student, courses, editCour
                             options={selectOptions!}
                             defaultValue={defaultValues!}
                         />
+                        {errors.courseIds && (
+                            <small className="text-red-500">{errors.courseIds}</small>
+                        )}
                     </div>
                     <div className="col-span-12">
                         <button
                             type="submit"
-                            className="w-full h-10 rounded-lg bg-primary text-white"
+                            disabled={loading}
+                            className="w-full h-10 rounded-lg bg-primary text-white disabled:opacity-50"
                         >
-                            {student ? "Update Student" : "Create Student"}
+                            {loading
+                                ? (student ? "Updating..." : "Creating...")
+                                : (student ? "Update Student" : "Create Student")}
                         </button>
                     </div>
                 </form>

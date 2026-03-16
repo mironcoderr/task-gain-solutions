@@ -23,7 +23,7 @@ export default async function RootLayout({children}: Readonly<{children: React.R
             <body className={`${googleFont.className} antialiased flex gap-4 p-4`}>
                 <aside className='w-64 shrink-0 p-4 rounded-2xl bg-primary/5'>
                     <Link href="/" className='w-fit mb-4'>
-                        <Image src="/images/logo.webp" alt="logo" width={150} height={50} className="w-32" />
+                        <Image src="/images/logo.webp" alt="logo" width={150} height={50} loading="eager" className="w-32" />
                     </Link>
                     <nav className='flex flex-col'>
                         <Link className='flex items-center gap-3 py-2' href="/"><i className='mc-line-area-chart text-xl'></i>Dashboard</Link>
